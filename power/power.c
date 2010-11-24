@@ -189,10 +189,10 @@ set_screen_state(int on)
     return 0;
 }
 
-#ifdef SHADOW_HARDWARE
 int
 set_deepsleep_state(int on)
 {
+#ifdef SHADOW_HARDWARE
     LOGI("***set_deepsleep_state  %d", on);
 
     initialize_fds();
@@ -207,6 +207,6 @@ set_deepsleep_state(int on)
     if(len < 0) {
         LOGE("Failed setting last user activity: g_error=%d\n", g_error);
     }
+#endif
     return 0;
 }
-#endif

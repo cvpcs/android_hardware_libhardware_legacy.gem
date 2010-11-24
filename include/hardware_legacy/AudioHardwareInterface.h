@@ -242,12 +242,10 @@ public:
 
     static AudioHardwareInterface* create();
 
-#ifdef SHADOW_HARDWARE
     // shadow stubs
     virtual bool isA2dpCapable(uint32_t format, uint32_t channels, uint32_t sampleRate, uint32_t bitRate) { return false; }
     virtual bool a2dpReconfigure(uint32_t format, uint32_t channels, uint32_t sampleRate) { return false; }
     virtual void stopA2dp() {}
-#endif
 
 protected:
 
