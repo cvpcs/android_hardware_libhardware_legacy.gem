@@ -39,6 +39,9 @@ int set_screen_state(int on);
 // set how long to stay awake after the last user activity in seconds
 int set_last_user_activity_timeout(int64_t delay);
 
+#ifdef SHADOW_HARDWARE
+int set_deepsleep_state(int on);
+#endif
 
 #if __cplusplus
 } // extern "C"

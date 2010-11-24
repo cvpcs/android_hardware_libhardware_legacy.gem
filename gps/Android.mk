@@ -16,3 +16,6 @@ endif
 
 LOCAL_SRC_FILES += gps/gps.cpp
 
+ifeq ($(SHADOW_HARDWARE),true)
+LOCAL_SRC_FILES += gps/gps_mot_ext.cpp
+endif

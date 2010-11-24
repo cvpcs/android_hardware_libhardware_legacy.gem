@@ -166,10 +166,45 @@ static int check_driver_loaded() {
     return 0;
 }
 
+#ifdef SHADOW_HARDWARE
+static int check_ap_drvier_loaded() {
+
+    static const char AP_DRIVER_MODULE_TAG[]   = "tiap_drv";
+    FILE *proc;
+    char line[sizeof(AP_DRIVER_MODULE_TAG)+10];
+
+    if ((proc = fopen(MODULE_FILE, "r")) == NULL) {
+        LOGW("Could not open %s: %s", MODULE_FILE, strerror(errno));
+        return 0;
+    }
+
+    while ((fgets(line, sizeof(line), proc)) != NULL) {
+        if (strncmp(line, AP_DRIVER_MODULE_TAG, strlen(AP_DRIVER_MODULE_TAG)) == 0) {
+            fclose(proc);
+            return 1;
+        }
+    }
+
+    fclose(proc);
+    return 0;
+}
+#endif
+
 int wifi_load_driver()
 {
     char driver_status[PROPERTY_VALUE_MAX];
     int count = 100; /* wait at most 20 seconds for completion */
+
+#ifdef SHADOW_HARDWARE
+    while (count-- > 0) {
+        if (check_ap_driver_loaded()) {
+            usleep(200000);
+        }
+        else {
+            break;
+        }
+    }
+#endif
 
     if (check_driver_loaded()) {
         return 0;
@@ -190,7 +225,7 @@ int wifi_load_driver()
         if (property_get(DRIVER_PROP_NAME, driver_status, NULL)) {
             if (strcmp(driver_status, "ok") == 0)
                 return 0;
-            else if (strcmp(DRIVER_PROP_NAME, "failed") == 0) {
+            else if (strcmp(driver_status, "failed") == 0) {
                 wifi_unload_driver();
                 return -1;
             }
