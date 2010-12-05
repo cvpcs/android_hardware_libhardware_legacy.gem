@@ -15,11 +15,6 @@ ifneq ($(TARGET_SIMULATOR),true)
   QEMU_HARDWARE := true
 endif
 
-ifeq ($(TARGET_DEVICE),shadow)
-  LOCAL_CFLAGS += -DSHADOW_HARDWARE
-  SHADOW_HARDWARE := true
-endif
-
 ifneq ($(TARGET_SIMULATOR),true)
 LOCAL_SHARED_LIBRARIES += libdl
 endif
