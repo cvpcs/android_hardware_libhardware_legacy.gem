@@ -167,7 +167,7 @@ static int check_driver_loaded() {
 }
 
 #ifdef SHADOW_HARDWARE
-static int check_ap_driver_loaded() {
+static int check_ap_drvier_loaded() {
 
     static const char AP_DRIVER_MODULE_TAG[]   = "tiap_drv";
     FILE *proc;
