@@ -204,8 +204,6 @@ int wifi_load_driver()
             break;
         }
     }
-
-    count = 100;
 #endif
 
     if (check_driver_loaded()) {
