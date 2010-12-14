@@ -39,6 +39,10 @@ int set_screen_state(int on);
 // set how long to stay awake after the last user activity in seconds
 int set_last_user_activity_timeout(int64_t delay);
 
+#if defined(__DEVICE_shadow__) || defined(__DEVICE_droid2__)
+// this is only present on shadow
+int set_deepsleep_state(int on);
+#endif
 
 #if __cplusplus
 } // extern "C"

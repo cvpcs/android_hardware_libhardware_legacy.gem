@@ -64,6 +64,10 @@ static int g_error = 1;
 static const char *off_state = "mem";
 static const char *on_state = "on";
 
+#ifdef SHADOW_HARDWARE
+static const char *deepsleep_state = "deepsleep";
+#endif
+
 static int64_t systemTime()
 {
     struct timespec t;
@@ -184,3 +188,26 @@ set_screen_state(int on)
     }
     return 0;
 }
+
+#if defined(__DEVICE_shadow__) || defined(__DEVICE_droid2__)
+int
+set_deepsleep_state(int on)
+{
+    LOGI("***set_deepsleep_state  %d", on);
+
+    initialize_fds();
+
+    if (g_error) return g_error;
+
+    char buf[32];
+    int len;
+
+    len = sprintf(buf, deepsleep_state);
+    len = write(g_fds[REQUEST_STATE], buf, len);
+    if(len < 0) {
+        LOGE("Failed setting last user activity: g_error=%d\n", g_error);
+    }
+
+    return 0;
+}
+#endif

@@ -62,7 +62,11 @@ public:
     /**
      * return the frame size (number of bytes per sample).
      */
+#if defined(__DEVICE_shadow__) || defined(__DEVICE_droid2__)
+    virtual uint32_t frameSize() const { return AudioSystem::popCount(channels())*((format()==AudioSystem::PCM_16_BIT)?sizeof(int16_t):sizeof(int8_t)); }
+#else
     uint32_t    frameSize() const { return AudioSystem::popCount(channels())*((format()==AudioSystem::PCM_16_BIT)?sizeof(int16_t):sizeof(int8_t)); }
+#endif
 
     /**
      * return the audio hardware driver latency in milli seconds.
@@ -241,6 +245,12 @@ public:
     virtual status_t dumpState(int fd, const Vector<String16>& args) = 0;
 
     static AudioHardwareInterface* create();
+
+#if defined(__DEVICE_shadow__) || defined(__DEVICE_droid2__)
+    virtual bool isA2dpCapable(uint32_t format, uint32_t channels, uint32_t sampleRate, uint32_t bitRate) { return false; }
+    virtual bool a2dpReconfigure(uint32_t format, uint32_t channels, uint32_t sampleRate) { return false; }
+    virtual void stopA2dp() {}
+#endif
 
 protected:
 

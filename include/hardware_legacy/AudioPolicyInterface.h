@@ -110,6 +110,11 @@ public:
     // releases the input.
     virtual void releaseInput(audio_io_handle_t input) = 0;
 
+#if defined(__DEVICE_shadow__) || defined(__DEVICE_droid2__)
+    virtual bool canDoA2dpDirect() { return false; }
+    virtual audio_io_handle_t a2dpCheckAndConfigure(audio_io_handle_t output) { return output; }
+#endif
+
     //
     // volume control functions
     //

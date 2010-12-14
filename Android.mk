@@ -15,6 +15,12 @@ ifneq ($(TARGET_SIMULATOR),true)
   QEMU_HARDWARE := true
 endif
 
+# we set this for all droid2 and shadow hardware as a convenience to prevent
+# us from having to do it in all subdir makefiles
+ifeq (,$(filter-out shadow droid2,$(TARGET_DEVICE)))
+  SHADOW_HARDWARE := true
+endif
+
 ifneq ($(TARGET_SIMULATOR),true)
 LOCAL_SHARED_LIBRARIES += libdl
 endif
