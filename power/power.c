@@ -64,7 +64,7 @@ static int g_error = 1;
 static const char *off_state = "mem";
 static const char *on_state = "on";
 
-#ifdef SHADOW_HARDWARE
+#if defined(__DEVICE_shadow__) || defined(__DEVICE_droid2__)
 static const char *deepsleep_state = "deepsleep";
 #endif
 
